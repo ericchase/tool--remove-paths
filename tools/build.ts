@@ -26,7 +26,8 @@ builder.setAfterProcessingSteps(
   new (class implements Step {
     async end(builder: BuilderInternal) {}
     async run(builder: BuilderInternal) {
-      await Step_Bun_Run({ cmd: ['bun', 'build', '--compile', './src/rmds.ts'] }).run(builder);
+      await Step_Bun_Run({ cmd: ['bun', 'build', '--compile', './src/rmps.ts'] }).run(builder);
+      await Step_Bun_Run({ cmd: ['bun', 'build', '--compile', './src/rmps-windows.ts'] }).run(builder);
     }
   })(),
 );
