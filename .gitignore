@@ -232,3 +232,6 @@ sync.ffs_db
 ##
 
 /cache/
+
+# the linux executable
+/rmps

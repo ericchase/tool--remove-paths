@@ -26,7 +26,7 @@ builder.setAfterProcessingSteps(
   new (class implements Step {
     async end(builder: BuilderInternal) {}
     async run(builder: BuilderInternal) {
-      // await Step_Bun_Run({ cmd: ['bun', 'build', '--compile', '--target', 'bun-linux-x64', './src/rmps.ts', '--outfile', './rmps'] }).run(builder);
+      await Step_Bun_Run({ cmd: ['bun', 'build', '--compile', '--target', 'bun-linux-x64', './src/rmps.ts', '--outfile', './rmps'] }).run(builder);
       await Step_Bun_Run({ cmd: ['bun', 'build', '--compile', '--target', 'bun-windows-x64', './src/rmps.ts', '--outfile', './rmps.exe'] }).run(builder);
       await Step_Bun_Run({ cmd: ['bun', 'build', '--compile', '--target', 'bun-windows-x64', './src/rmps-windows.ts', '--outfile', './rmpsx.exe'] }).run(builder);
       // add icons
