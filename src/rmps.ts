@@ -98,8 +98,8 @@ if (targetset.size > 0) {
 } else {
   console.error(`Recursively search a directory for path patterns to delete.
 Command: directory <target> -- <ignore>
-  <target>    Paths to mark for deletion.
-  <ignore>    Paths ignore during search.
+  <target>    Path patterns to mark for deletion.
+  <ignore>    Path patterns to ignore during search.
 
 Please provide a directory path for searching and at least 1 target pattern.`);
 }
