@@ -25,3 +25,16 @@ builder.setAfterProcessingSteps(
 ```
 
 Then run `bun run build` to compile the executable.
+
+### Usage
+
+```
+Recursively search a directory for path patterns to delete.
+Command: directory <target> -- <ignore>
+  <target>    Paths to mark for deletion.
+  <ignore>    Paths ignore during search.
+
+Please provide a directory path for searching and at least 1 target pattern.
+```
+
+ie: `rmps . *.ts`
