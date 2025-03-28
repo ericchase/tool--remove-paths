@@ -1,4 +1,17 @@
-Please read the `README.md` file at https://github.com/ericchase-library/ts-library for more information.
+## About
+
+https://github.com/ericchase/tool--remove-paths
+
+Command line tool that recursively searches a directory for path patterns to delete.
+
+## TypeScript Library and Template Project
+
+For more information about my TypeScript library and template projects, please visit:
+
+- https://github.com/ericchase-library/ts-library
+- https://github.com/ericchase-library/ts-template
+
+## Build
 
 Modify the `./tools/build.ts` before building.
 
