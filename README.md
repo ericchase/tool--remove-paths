@@ -6,7 +6,7 @@ Command line tool that recursively searches a directory for path patterns to del
 
 ## TypeScript Library and Template Project
 
-For more information about my TypeScript library and template projects, please visit:
+For information about my TypeScript library and template projects, please visit:
 
 - https://github.com/ericchase-library/ts-library
 - https://github.com/ericchase-library/ts-template
