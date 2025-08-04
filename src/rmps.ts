@@ -1,7 +1,11 @@
-import { Path } from './lib/ericchase/Platform/FilePath.js';
-import { getPlatformProvider } from './lib/ericchase/Platform/PlatformProvider.js';
+import { BunPlatform_Glob_Match } from './lib/ericchase/BunPlatform_Glob_Match.js';
+import { Async_BunPlatform_Glob_Scan_Generator } from './lib/ericchase/BunPlatform_Glob_Scan_Generator.js';
+import { NODE_PATH } from './lib/ericchase/NodePlatform.js';
+import { Async_NodePlatform_Directory_Delete } from './lib/ericchase/NodePlatform_Directory_Delete.js';
+import { Async_NodePlatform_Path_Is_Directory } from './lib/ericchase/NodePlatform_Path_Is_Directory.js';
+import { NodePlatform_PathObject_Relative_Class } from './lib/ericchase/NodePlatform_PathObject_Relative_Class.js';
 
-const dirpath = Path(Bun.argv[2]);
+const dirpath = NODE_PATH.join(Bun.argv[2] ?? '');
 const targetset = new Set<string>();
 const ignoreset = new Set<string>();
 
@@ -10,10 +14,10 @@ const ignoreset = new Set<string>();
   let i = 3;
   for (; i < Bun.argv.length; i++) {
     if (Bun.argv[i] === '--') break;
-    targetset.add(`**/${Path(Bun.argv[i]).standard}{,/**}`);
+    targetset.add(`**/${NodePlatform_PathObject_Relative_Class(Bun.argv[i]).toPosix().join()}{,/**}`);
   }
   for (i++; i < Bun.argv.length; i++) {
-    ignoreset.add(`**/${Path(Bun.argv[i]).standard}{,/**}`);
+    ignoreset.add(`**/${NodePlatform_PathObject_Relative_Class(Bun.argv[i]).toPosix().join()}{,/**}`);
   }
 }
 
@@ -26,13 +30,12 @@ if (targetset.size > 0) {
   }
   console.log();
 
-  const platform = await getPlatformProvider('bun');
   const deleteset = new Set<string>();
 
   const tid = setInterval(() => {
     console.write('.');
   }, 1000);
-  const dirlist = await Array.fromAsync(platform.Directory.globScan(dirpath, '**', true, false));
+  const dirlist = await Array.fromAsync(Async_BunPlatform_Glob_Scan_Generator(dirpath, '**', { absolute_paths: true, only_files: false }));
   clearInterval(tid);
   console.write('.');
   console.log();
@@ -42,14 +45,14 @@ if (targetset.size > 0) {
   for (const path of dirlist) {
     let skip = false;
     for (const ignore of ignoreset) {
-      if (platform.Utility.globMatch(path, ignore)) {
+      if (BunPlatform_Glob_Match(path, ignore)) {
         skip = true;
         break;
       }
     }
     if (skip === false) {
       for (const target of targetset) {
-        if (platform.Utility.globMatch(path, target)) {
+        if (BunPlatform_Glob_Match(path, target)) {
           if (path.startsWith(previous) === false) {
             deleteset.add(path);
             previous = path;
@@ -66,7 +69,7 @@ if (targetset.size > 0) {
     console.log();
     for (const path of deleteset) {
       try {
-        console.log((await platform.Path.isDirectory(Path(path))) ? 'Directory |' : 'File      |', path);
+        console.log((await Async_NodePlatform_Path_Is_Directory(path)) ? 'Directory |' : 'File      |', path);
       } catch (error) {
         console.error(error);
       }
@@ -80,7 +83,7 @@ if (targetset.size > 0) {
       for (const path of deleteset) {
         tasks.push(
           (async () => {
-            await platform.Directory.delete(Path(path));
+            await Async_NodePlatform_Directory_Delete(path, true);
             console.log('Deleted:', path);
           })(),
         );
